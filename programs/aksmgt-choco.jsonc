@@ -1,0 +1,15 @@
+// Programs which are not available as Winget packages can be installed via chocolatey or other means
+{
+  "programs": [
+    {
+      "program": "k9s",
+      "name": "k9s cli",
+      "installation": true
+    },
+    {
+      "program": "flux",
+      "name": "flux cli",
+      "installation": true
+    }
+  ]
+}

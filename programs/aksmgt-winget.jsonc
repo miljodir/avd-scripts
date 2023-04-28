@@ -1,0 +1,60 @@
+// Utils used towards AKS
+{
+  "programs": [
+    {
+      "program": "Microsoft.AzureCLI",
+      "name": "Azure CLI",
+      "installation": true
+    },
+    {
+      "program": "Kubernetes.kubectl",
+      "name": "kubectl",
+      "installation": true
+    },
+    {
+      "program": "Git.Git",
+      "name": "git bash",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.WindowsTerminal",
+      "name": "Windows Terminal",
+      "installation": true
+    },
+    {
+      "program": "Helm.Helm",
+      "name": "helm",
+      "installation": true
+    },
+    { // required for kubernetes auth towards AKS
+      "program": "Microsoft.Azure.Kubelogin",
+      "name": "kubelogin",
+      "installation": true
+    },
+    { // Improved pwsh prompt
+      "program": "JanDeDobbeleer.OhMyPosh",
+      "name": "ohmyposh",
+      "installation": false
+    },
+    {
+      "program": "stedolan.jq",
+      "name": "jq",
+      "installation": true
+    },
+    {
+      "program": "Mirantis.Lens",
+      "name": "Lens kubernetes IDE",
+      "installation": true
+    },
+    { // Easily change current kubernetes context (cluster)
+      "program": "ahmetb.kubectx",
+      "name": "kubectx",
+      "installation": true
+    },
+    { // Easily change current kubernetes namespace
+      "program": "ahmetb.kubens",
+      "name": "kubens",
+      "installation": true
+    }
+  ]
+}
