@@ -1,5 +1,5 @@
 
-function Install-Program {
+function Install-WingetProgram {
     param (
         [Parameter(Mandatory)]
         [string]$Path,

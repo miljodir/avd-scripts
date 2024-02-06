@@ -45,7 +45,7 @@ Copy-Item -Path ../utils/ws-terminal-profile.json -Destination c:\ws-terminal-pr
 Copy-Item -Path ../utils/ps-profile.ps1 -Destination $PROFILE.AllUsersCurrentHost -Force
 
 . ../utils/Install-WingetProgram.ps1
-Install-WingetProgram -Path ../utils/hp-winget.jsonc -Type winget
+Install-WingetProgram -Path ../utils/hp-install-winget.jsonc -Type winget
 
 Write-Host "Copies acl from link to target exe"
 foreach ($f in (Get-Item 'C:\Program Files\WinGet\Links\*')) {
