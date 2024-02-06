@@ -50,5 +50,10 @@
       "name": "Azure Data Studio",
       "installation": false
     },
+    {
+      "program": "Git.Git",
+      "name": "Git",
+      "installation": true
+    },
   ]
 }
