@@ -1,0 +1,54 @@
+{
+  "programs": [
+    {
+      "program": "Microsoft.WindowsTerminal",
+      "name": "Windows Terminal",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.VisualStudioCode",
+      "name": "vscode",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.PowerShell",
+      "name": "pwsh",
+      "installation": false
+    },
+    {
+      "program": "JanDeDobbeleer.OhMyPosh",
+      "name": "ohmyposh",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.Azure.StorageExplorer",
+      "name": "Microsoft Azure Storage Explorer",
+      "installation": true
+    },
+    {
+      "program": "Anaconda.Anaconda3",
+      "name": "Anaconda",
+      "installation": true
+    },
+    {
+      "program": "PostgreSQL.pgAdmin",
+      "name": "pgAdmin",
+      "installation": true
+    },
+    {
+      "program": "OSGeo.QGIS_LTR",
+      "name": "QGIS LTR",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.SQLServerManagementStudio",
+      "name": "SSMS",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.AzureDataStudio",
+      "name": "Azure Data Studio",
+      "installation": false
+    },
+  ]
+}
