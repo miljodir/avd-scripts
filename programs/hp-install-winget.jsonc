@@ -3,7 +3,7 @@
     {
       "program": "Microsoft.WindowsTerminal",
       "name": "Windows Terminal",
-      "installation": true
+      "installation": false
     },
     {
       "program": "Microsoft.VisualStudioCode",
@@ -54,6 +54,6 @@
       "program": "Git.Git",
       "name": "Git",
       "installation": true
-    },
+    }
   ]
 }

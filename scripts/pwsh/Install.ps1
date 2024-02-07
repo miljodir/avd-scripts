@@ -40,12 +40,12 @@ foreach ($f in $(Get-ChildItem -Path .\* -Include *.ttf)) {
     }
 }
 
-Copy-Item -Path ../utils/ws-terminal-profile.json -Destination c:\ws-terminal-profile.json -Force
+Copy-Item -Path ../../utils/ws-terminal-profile.json -Destination c:\install\ws-terminal-profile.json -Force
 # Copy the profile to the default profile
-Copy-Item -Path ../utils/ps-profile.ps1 -Destination $PROFILE.AllUsersCurrentHost -Force
+Copy-Item -Path ../../utils/PsProfile.ps1 -Destination $PROFILE.AllUsersCurrentHost -Force
 
-. ../utils/Install-WingetProgram.ps1
-Install-WingetProgram -Path ../utils/hp-install-winget.jsonc -Type winget
+. ../../utils/Install-WingetProgram.ps1
+Install-WingetProgram -Path ../../programs/hp-install-winget.jsonc -Type winget
 
 Write-Host "Copies acl from link to target exe"
 foreach ($f in (Get-Item 'C:\Program Files\WinGet\Links\*')) {
