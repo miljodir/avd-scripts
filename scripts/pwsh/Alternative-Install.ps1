@@ -10,7 +10,8 @@ $DesktopPath = "c:\temp"
 Start-Transcript -Append "./log.txt"
 
 if ((Test-Path c:\temp) -eq $false) {
-    Add-Content -LiteralPath C:\New-WVDSessionHost.log "Create C:\temp Directory"
+    New-Item -ItemType Directory -Force -Path "c:\temp"
+    Add-Content -LiteralPath C:\temp\New-WVDSessionHost.log "Create C:\temp Directory"
     Write-Host `
         -ForegroundColor Cyan `
         -BackgroundColor Black `
@@ -85,7 +86,7 @@ function Install-WinUtilWinget {
         Write-Host "Winget Installed"
     }
     Catch {
-        throw [WingetFailedInstall]::new('Failed to install')
+        Write-Error "Failed to install winget"
     }
 }
 
@@ -102,6 +103,13 @@ Expand-Archive `
     -Verbose
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 cd $DesktopPath 
+
+Add-Content -LiteralPath  C:\temp\New-WVDSessionHost.log "Installing FSLogix"
+$fslogix_deploy_status = Start-Process `
+    -FilePath "$LocalWVDpath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
+    -ArgumentList "/install /quiet" `
+    -Wait `
+    -Passthru
 
 $apps = @(
     @{name = "Microsoft.PowerShell" }                            #MicrosoftPowerShell
