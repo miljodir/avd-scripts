@@ -6,7 +6,7 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/JanDeDobbeleer/
 #Sets terminal settings
 if (!(Get-Item $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json)) {
     #Incase file does not exists
-    Copy-Item -Path c:\ws-terminal-profile.json -Destination $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json -Force
+    Copy-Item -Path c:\install\ws-terminal-profile.json -Destination $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json -Force
 }
 else {
     $settings = Get-Content $env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json -raw | ConvertFrom-Json
