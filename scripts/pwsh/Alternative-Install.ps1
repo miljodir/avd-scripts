@@ -83,31 +83,35 @@ Foreach ($app in $apps) {
         # MS Store apps
         if ($app.source -ne $null) {
             winget install --exact --accept-package-agreements --accept-source-agreements $app.name --source $app.source
-            if ($LASTEXITCODE -eq 0) {
+            if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189) {
+                Write-Host "$(Get-Date) local time"
                 Write-Host -ForegroundColor Green $app.name "successfully installed."
             }
             else {
+                Write-Host "$(Get-Date) local time"
                 $app.name + " couldn't be installed." | Add-Content "$DesktopPath\$errorlog"
                 Write-Host
                 Write-Host -ForegroundColor Red $app.name "couldn't be installed."
                 Write-Host -ForegroundColor Yellow "Write in $DesktopPath\$errorlog"
                 Write-Host
-                Pause
+                #Pause
             }    
         }
         # All other Apps
         else {
             winget install --exact --scope machine --accept-package-agreements --accept-source-agreements $app.name
-            if ($LASTEXITCODE -eq 0) {
+            if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189) {
+                Write-Host "$(Get-Date) local time"
                 Write-Host -ForegroundColor Green $app.name "successfully installed."
             }
             else {
+                Write-Host "$(Get-Date) local time"
                 $app.name + " couldn't be installed." | Add-Content "$DesktopPath\$errorlog"
                 Write-Host
                 Write-Host -ForegroundColor Red $app.name "couldn't be installed."
                 Write-Host -ForegroundColor Yellow "Write in $DesktopPath\$errorlog"
                 Write-Host
-                Pause
+                #Pause
             }  
         }
     }
