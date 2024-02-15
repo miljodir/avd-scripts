@@ -43,7 +43,7 @@ cd $DesktopPath
 
 Add-Content -LiteralPath  C:\temp\New-WVDSessionHost.log "Installing FSLogix"
 $fslogix_deploy_status = Start-Process `
-    -FilePath "$LocalWVDpath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
+    -FilePath "$DesktopPath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
     -ArgumentList "/install /quiet" `
     -Wait `
     -Passthru
