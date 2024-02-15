@@ -6,28 +6,32 @@
 #scope: all users
 #preferabbly from msstore
 
-$DesktopPath = "c:\temp"
+$DesktopPath = "c:\install"
 Start-Transcript -Append "./log.txt"
 
-if ((Test-Path c:\temp) -eq $false) {
-    New-Item -ItemType Directory -Force -Path "c:\temp"
-    Add-Content -LiteralPath C:\temp\New-WVDSessionHost.log " $(Get-Date) Create C:\temp Directory"
+if ((Test-Path c:\install) -eq $false) {
+    New-Item -ItemType Directory -Force -Path "c:\install"
+    Add-Content -LiteralPath C:\install\New-WVDSessionHost.log " $(Get-Date) Create C:\install Directory"
     Write-Host `
         -ForegroundColor Cyan `
         -BackgroundColor Black `
-        "creating temp directory"
+        "creating install directory"
 }
 
 # Pre-installed winget on win 11 is buggy and should be removed and reinstalled with latest version
 # https://github.com/microsoft/winget-cli/issues/3832#issuecomment-1872387214
 function Install-WinUtilWinget {
     
-    Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile winget.msixbundle
-    Add-AppxPackage -ForceApplicationShutdown winget.msixbundle
-    del winget.msixbundle
+    Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile c:\install\winget.msixbundle
+    Start-sleep 3
+    Add-AppxPackage -ForceApplicationShutdown -Path c:\install\winget.msixbundle
+    Remove-Item -Path c:\install\winget.msixbundle -Force
 }
 
-Install-WinUtilWinget
+if ((winget --version) -like "v1.2*") {
+    Add-Content -LiteralPath C:\install\New-WVDSessionHost.log " $(Get-Date) Reinstalling winget"
+    Install-WinUtilWinget
+}
 
 $FSLogixURI = 'https://aka.ms/fslogix_download'
 $FSInstaller = 'FSLogixAppsSetup.zip'
@@ -37,14 +41,14 @@ if ((test-path "$DesktopPath\$FSInstaller") -and (test-path "$DesktopPath\FSLogi
     Invoke-WebRequest -Uri $FSLogixURI -OutFile "$DesktopPath\$FSInstaller"
 
     Expand-Archive `
-        -LiteralPath "C:\temp\$FSInstaller" `
+        -LiteralPath "C:\install\$FSInstaller" `
         -DestinationPath "$DesktopPath\FSLogix" `
         -Force `
         -Verbose
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     cd $DesktopPath 
     
-    Add-Content -LiteralPath  C:\temp\New-WVDSessionHost.log " $(Get-Date) Installing FSLogix"
+    Add-Content -LiteralPath  C:\install\New-WVDSessionHost.log " $(Get-Date) Installing FSLogix"
     $fslogix_deploy_status = Start-Process `
         -FilePath "$DesktopPath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
         -ArgumentList "/install /quiet" `
@@ -61,16 +65,29 @@ $apps = @(
     @{name = "Microsoft.Azure.AZCopy.10" }                       #AZCopy
     @{name = "JanDeDobbeleer.OhMyPosh" }                         #OhMyPosh
     @{name = "Microsoft.Azure.StorageExplorer" }                 #Azure Storage Explorer
+    @{name = "Microsoft.AzureDataStudio" }                       #Azure Data Studio
+    @{name = "Git.Git" }                                         #Git
+    @{name = "Microsoft.VisualStudioCode" }                      #vscode
     @{name = "Anaconda.Anaconda3" }                              #Anaconda
     @{name = "PostgreSQL.pgAdmin" }                              #pgAdmin
     @{name = "OSGeo.QGIS_LTR" }                                  #QGIS LTR
     @{name = "Microsoft.SQLServerManagementStudio" }             #SSMS
-    @{name = "Microsoft.AzureDataStudio" }                       #Azure Data Studio
-    @{name = "Git.Git" }                                         #Git
-    @{name = "Microsoft.WindowsTerminal" }                       #Windows Terminal
-    @{name = "Microsoft.VisualStudioCode" }                      #vscode
     
 )
+
+
+Invoke-RestMethod https://raw.githubusercontent.com/miljodir/avd-scripts/main/utils/PsProfile.ps1 -OutFile c:\install\PsProfile.ps1
+Invoke-RestMethod https://raw.githubusercontent.com/miljodir/avd-scripts/main/utils/ws-terminal-profile.json -OutFile c:\install\ws-terminal-profile.json
+
+# Copy the profile to the default profile
+$testpath = Test-Path -Path $PROFILE
+
+if ($testpath -eq $false) {
+    New-Item -ItemType Directory -Force -Path $PROFILE.CurrentUserCurrentHost
+}
+else {
+    Copy-Item -Path c:\install\PsProfile.ps1 -Destination $PROFILE.CurrentUserCurrentHost -Force
+}
 
 #Check if WinGet is installed:
 
@@ -132,4 +149,4 @@ Foreach ($app in $apps) {
 }
 
 Stop-Transcript
-Copy-Item -Path .\log.txt -Destination c:\temp\install-log.txt -Force
+Copy-Item -Path .\log.txt -Destination c:\install\install-log.txt -Force
