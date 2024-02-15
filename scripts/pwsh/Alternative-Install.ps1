@@ -11,7 +11,7 @@ Start-Transcript -Append "./log.txt"
 
 if ((Test-Path c:\temp) -eq $false) {
     New-Item -ItemType Directory -Force -Path "c:\temp"
-    Add-Content -LiteralPath C:\temp\New-WVDSessionHost.log "Create C:\temp Directory"
+    Add-Content -LiteralPath C:\temp\New-WVDSessionHost.log " $(Get-Date) Create C:\temp Directory"
     Write-Host `
         -ForegroundColor Cyan `
         -BackgroundColor Black `
@@ -31,22 +31,30 @@ Install-WinUtilWinget
 
 $FSLogixURI = 'https://aka.ms/fslogix_download'
 $FSInstaller = 'FSLogixAppsSetup.zip'
-Invoke-WebRequest -Uri $FSLogixURI -OutFile "$DesktopPath\$FSInstaller"
 
-Expand-Archive `
-    -LiteralPath "C:\temp\$FSInstaller" `
-    -DestinationPath "$DesktopPath\FSLogix" `
-    -Force `
-    -Verbose
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-cd $DesktopPath 
+if ((test-path "$DesktopPath\$FSInstaller") -and (test-path "$DesktopPath\FSLogix") -eq $false) {
 
-Add-Content -LiteralPath  C:\temp\New-WVDSessionHost.log "Installing FSLogix"
-$fslogix_deploy_status = Start-Process `
-    -FilePath "$DesktopPath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
-    -ArgumentList "/install /quiet" `
-    -Wait `
-    -Passthru
+    Invoke-WebRequest -Uri $FSLogixURI -OutFile "$DesktopPath\$FSInstaller"
+
+    Expand-Archive `
+        -LiteralPath "C:\temp\$FSInstaller" `
+        -DestinationPath "$DesktopPath\FSLogix" `
+        -Force `
+        -Verbose
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    cd $DesktopPath 
+    
+    Add-Content -LiteralPath  C:\temp\New-WVDSessionHost.log " $(Get-Date) Installing FSLogix"
+    $fslogix_deploy_status = Start-Process `
+        -FilePath "$DesktopPath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
+        -ArgumentList "/install /quiet" `
+        -Wait `
+        -Passthru
+
+}
+else {
+    Write-host "FSLogix installer already downloaded and presumed installed" -ForegroundColor Green
+}
 
 $apps = @(
     @{name = "Microsoft.PowerShell" }                            #MicrosoftPowerShell
@@ -75,21 +83,22 @@ if (!$WingetInstalled) {
     break
 }
 
-Write-Host -ForegroundColor Cyan "Installing new Apps..."
+Write-Host -ForegroundColor Cyan " $(Get-Date) Installing new and upgrading already installed Apps..."
 Foreach ($app in $apps) {
     $listApp = winget list --accept-package-agreements --exact -q $app.name
     if (![String]::Join("", $listApp).Contains($app.name)) {
-        Write-Host -ForegroundColor Yellow  "Install:" $app.name
+        Write-Host -ForegroundColor Yellow  " $(Get-Date) Install:" $app.name
         # MS Store apps
         if ($app.source -ne $null) {
             winget install --exact --accept-package-agreements --accept-source-agreements $app.name --source $app.source
             if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189) {
                 Write-Host "$(Get-Date) local time"
                 Write-Host -ForegroundColor Green $app.name "successfully installed."
+                (Get-Date).ToString() + $app.name + "successfully installed." | Add-Content "$DesktopPath\$errorlog"
             }
             else {
                 Write-Host "$(Get-Date) local time"
-                $app.name + " couldn't be installed." | Add-Content "$DesktopPath\$errorlog"
+                (Get-Date).ToString() + $app.name + " couldn't be installed." | Add-Content "$DesktopPath\$errorlog"
                 Write-Host
                 Write-Host -ForegroundColor Red $app.name "couldn't be installed."
                 Write-Host -ForegroundColor Yellow "Write in $DesktopPath\$errorlog"
@@ -103,9 +112,11 @@ Foreach ($app in $apps) {
             if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq -1978335189) {
                 Write-Host "$(Get-Date) local time"
                 Write-Host -ForegroundColor Green $app.name "successfully installed."
+                (Get-Date).ToString() + $app.name + "successfully installed." | Add-Content "$DesktopPath\$errorlog"
             }
             else {
                 Write-Host "$(Get-Date) local time"
+                (Get-Date).ToString() + $app.name + " couldn't be installed." | Add-Content "$DesktopPath\$errorlog"
                 $app.name + " couldn't be installed." | Add-Content "$DesktopPath\$errorlog"
                 Write-Host
                 Write-Host -ForegroundColor Red $app.name "couldn't be installed."
@@ -116,7 +127,7 @@ Foreach ($app in $apps) {
         }
     }
     else {
-        Write-Host -ForegroundColor Yellow "Skip installation of" $app.name
+        Write-Host -ForegroundColor Yellow " $(Get-Date) Skip installation of" $app.name
     }
 }
 
