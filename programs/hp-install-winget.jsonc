@@ -54,6 +54,41 @@
       "program": "Git.Git",
       "name": "Git",
       "installation": true
+    },
+    {
+      "program": "Microsoft.DotNet.DesktopRuntime.8",
+      "name": ".NET Windows Desktop Runtime 8.0",
+      "installation": true
+    },
+    {
+      "program": "github.cli",
+      "name": "Github CLI",
+      "installation": true
+    },
+    {
+      "program": "Microsoft.azurecli",
+      "name": "Azure CLI",
+      "installation": true
+    },
+    {
+      "program": "jgraph.draw",
+      "name": "Draw.io",
+      "installation": true
+    },
+    {
+      "program": "putty.putty",
+      "name": "Putty",
+      "installation": true
+    },
+    {
+      "program": "WinSCP.WinSCP",
+      "name": "WinSCP",
+      "installation": true
+    },
+    {
+      "program": "hashicorp.terraform",
+      "name": "Terraform",
+      "installation": true
     }
   ]
 }
