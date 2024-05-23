@@ -72,9 +72,15 @@ $apps = @(
     @{name = "PostgreSQL.pgAdmin" }                              #pgAdmin
     @{name = "OSGeo.QGIS_LTR" }                                  #QGIS LTR
     @{name = "Microsoft.SQLServerManagementStudio" }             #SSMS
+    @{name = "Microsoft.DotNet.DesktopRuntime.8"}
+    @{name = "github.cli"}
+    @{name = "Microsoft.azurecli"}
+    @{name = "jgraph.draw"}
+    @{name = "putty.putty"}
+    @{name = "WinSCP.WinSCP"}
+    @{name = "hashicorp.terraform"} # geoserver terraform provider
     
 )
-
 
 Invoke-RestMethod https://raw.githubusercontent.com/miljodir/avd-scripts/main/utils/PsProfile.ps1 -OutFile c:\install\PsProfile.ps1
 Invoke-RestMethod https://raw.githubusercontent.com/miljodir/avd-scripts/main/utils/ws-terminal-profile.json -OutFile c:\install\ws-terminal-profile.json
