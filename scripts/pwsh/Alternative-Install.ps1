@@ -68,17 +68,21 @@ $apps = @(
     @{name = "Microsoft.AzureDataStudio" }                       #Azure Data Studio
     @{name = "Git.Git" }                                         #Git
     @{name = "Microsoft.VisualStudioCode" }                      #vscode
-    #@{name = "Anaconda.Anaconda3" }                              #Anaconda - seems to crash winget install
+    #@{name = "Anaconda.Anaconda3" }                             #Anaconda - seems to crash winget install
     @{name = "PostgreSQL.pgAdmin" }                              #pgAdmin
-    @{name = "OSGeo.QGIS" }                                  #QGIS LTR
+    @{name = "OSGeo.QGIS" }                                      #QGIS Latest
     @{name = "Microsoft.SQLServerManagementStudio" }             #SSMS
+    @{name = "Microsoft.DotNet.Desktop.7"}
+    @{name = "Microsoft.DotNet.Desktop.8"}
+    @{name = "Microsoft.DotNet.DesktopRuntime.7"}
     @{name = "Microsoft.DotNet.DesktopRuntime.8"}
     @{name = "github.cli"}
     @{name = "Microsoft.azurecli"}
     @{name = "jgraph.draw"}
     @{name = "putty.putty"}
     @{name = "WinSCP.WinSCP"}
-    @{name = "hashicorp.terraform"} # geoserver terraform provider
+    @{name = "hashicorp.terraform"}                             # geoserver terraform provider
+    @{name = "SomePythonThings.WingetUIStore"}                  # UnigetUI winget package manager GUI
     
 )
 
