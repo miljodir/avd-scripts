@@ -4,6 +4,10 @@
 $DesktopPath = "c:\install"
 Start-Transcript -Append "./log.txt"
 
+Write-Host "Installing powershell modules for Windows Update"
+Install-PackageProvider -Name NuGet -Force
+Install-Module -Name PSWindowsUpdate -Force
+
 if ((Test-Path c:\install) -eq $false) {
     New-Item -ItemType Directory -Force -Path "c:\install"
     Add-Content -LiteralPath C:\install\New-WVDSessionHost.log " $(Get-Date) Create C:\install Directory"
