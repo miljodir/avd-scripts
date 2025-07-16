@@ -33,32 +33,9 @@ if ((winget --version) -like "v1.2*") {
     Install-WinUtilWinget
 }
 
-$FSLogixURI = 'https://aka.ms/fslogix_download'
-$FSInstaller = 'FSLogixAppsSetup.zip'
-
-if ((test-path "$DesktopPath\$FSInstaller") -and (test-path "$DesktopPath\FSLogix") -eq $false) {
-
-    Invoke-WebRequest -Uri $FSLogixURI -OutFile "$DesktopPath\$FSInstaller"
-
-    Expand-Archive `
-        -LiteralPath "C:\install\$FSInstaller" `
-        -DestinationPath "$DesktopPath\FSLogix" `
-        -Force `
-        -Verbose
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    cd $DesktopPath 
-    
-    Add-Content -LiteralPath  C:\install\New-WVDSessionHost.log " $(Get-Date) Installing FSLogix"
-    $fslogix_deploy_status = Start-Process `
-        -FilePath "$DesktopPath\FSLogix\x64\Release\FSLogixAppsSetup.exe" `
-        -ArgumentList "/install /quiet" `
-        -Wait `
-        -Passthru
-
-}
-else {
-    Write-host "FSLogix installer already downloaded and presumed installed" -ForegroundColor Green
-}
+Write-Host "Installing powershell modules for Windows Update"
+Install-PackageProvider -Name NuGet -Force
+Install-Module -Name PSWindowsUpdate -Force
 
 $apps = @(
     @{name = "Microsoft.PowerShell" }                            #MicrosoftPowerShell
